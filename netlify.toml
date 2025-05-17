@@ -1,0 +1,24 @@
+[build]
+  publish = "public"
+
+[functions]
+  directory = "functions"
+  included_files = ["public/**"]
+  node_bundler = "esbuild"
+  
+  [functions.proxy]
+    timeout = 10
+    memory = 2048
+    runtime = "nodejs18.x"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    X-Proxy-Version = "2.1"
